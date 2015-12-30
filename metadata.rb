@@ -1,0 +1,11 @@
+name             'proxysql'
+maintainer       'Opex Team'
+maintainer_email 'si-opex@smartbox.com'
+license          'All rights reserved'
+description      'Installs/Configures proxysql'
+long_description 'Installs/Configures proxysql'
+version          '0.0.1'
+
+depends 'smartbox-essentials'
+depends 'smartbox-docker'
+depends 'hipchat'

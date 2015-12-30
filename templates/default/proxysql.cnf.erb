@@ -1,0 +1,88 @@
+#file proxysql.cfg
+
+# This config file is parsed using libconfig , and its grammar is described in:
+# http://www.hyperrealm.com/libconfig/libconfig_manual.html#Configuration-File-Grammar
+# Grammar is also copied at the end of this file
+
+datadir="<%= node['proxysql']['datadir'] %>"
+
+admin_variables=
+{
+  admin_credentials="admin:admin"
+  mysql_ifaces="127.0.0.1:<%= node['proxysql']['admin']['port'] %>;<%= node['proxysql']['admin']['socket'] %>"
+  refresh_interval=<%= node['proxysql']['admin']['refresh_interval'] %>
+  debug=<%= node['proxysql']['admin']['debug'] %>
+}
+
+mysql_variables=
+{
+  threads=<%= node['proxysql']['frontend']['threads'] %>
+  max_connections=<%= node['proxysql']['frontend']['max_connections'] %>
+  default_query_delay=<%= node['proxysql']['frontend']['default_query_delay'] %>
+  default_query_timeout=<%= node['proxysql']['frontend']['default_query_timeout'] %>
+  have_compress=<%= node['proxysql']['frontend']['have_compress'] %>
+  poll_timeout=<%= node['proxysql']['frontend']['poll_timeout'] %>
+  interfaces="0.0.0.0:<%= node['proxysql']['frontend']['port'] %>;<%= node['proxysql']['frontend']['socket'] %>"
+  default_schema="<%= node['proxysql']['frontend']['default_schema'] %>"
+  stacksize=<%= node['proxysql']['frontend']['stacksize'] %>
+  server_version="<%= node['proxysql']['frontend']['server_version'] %>"
+  connect_timeout_server=<%= node['proxysql']['frontend']['connect_timeout_server'] %>
+  monitor_history=<%= node['proxysql']['frontend']['monitor_history'] %>
+  monitor_connect_interval=<%= node['proxysql']['frontend']['monitor_connect_interval'] %>
+  monitor_ping_interval=<%= node['proxysql']['frontend']['monitor_ping_interval'] %>
+  ping_interval_server=<%= node['proxysql']['frontend']['ping_interval_server'] %>
+  ping_timeout_server=<%= node['proxysql']['frontend']['ping_timeout_server'] %>
+  commands_stats=<%= node['proxysql']['frontend']['commands_stats'] %>
+  sessions_sort=<%= node['proxysql']['frontend']['sessions_sort'] %>
+}
+
+<% if @config.has_key?('mysql_servers') %>
+# defines all the MySQL servers
+mysql_servers =
+(
+<% index = 0 %>
+<%  @config['mysql_servers'].each do |server,params| %>
+  <% index += 1 -%>
+  {
+  <% params.each do |key,value| %>
+    <%= key %> = <%= value %>
+  <% end -%>
+  }<%= "," unless index == (@config['mysql_servers'].size) %>
+<% end -%>
+)
+<% end -%>
+
+
+<% if @config.has_key?('mysql_users') %>
+# defines all the MySQL users
+mysql_users:
+(
+<% index = 0 %>
+<%  @config['mysql_users'].each do |user,params| %>
+  <% index += 1 -%>
+  {
+  <% params.each do |key,value| %>
+    <%= key %> = <%= value %>
+  <% end -%>
+  }<%= "," unless index == (@config['mysql_users'].size) %>
+<% end -%>
+)
+<% end -%>
+
+
+<% if @config.has_key?('mysql_query_rules') %>
+#defines MySQL Query Rules
+mysql_query_rules:
+(
+<% index = 0 %>
+<%  @config['mysql_query_rules'].each do |rule,params| %>
+  <% index += 1 -%>
+  {
+  <% params.each do |key,value| %>
+    <%= key %> = <%= value %>
+  <% end -%>
+  }<%= "," unless index == (@config['mysql_query_rules'].size) %>
+<% end -%>
+)
+<% end -%>
+
