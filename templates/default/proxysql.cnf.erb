@@ -8,8 +8,8 @@ datadir="<%= node['proxysql']['datadir'] %>"
 
 admin_variables=
 {
-  admin_credentials="admin:admin"
-  mysql_ifaces="127.0.0.1:<%= node['proxysql']['admin']['port'] %>;<%= node['proxysql']['admin']['socket'] %>"
+  admin_credentials="<%= node['proxysql']['admin']['user'] %>:<%= node['proxysql']['admin']['password'] %>"
+  mysql_ifaces="<%= node['proxysql']['admin']['client_ip'] %>:<%= node['proxysql']['admin']['port'] %>;<%= node['proxysql']['admin']['socket'] %>"
   refresh_interval=<%= node['proxysql']['admin']['refresh_interval'] %>
   debug=<%= node['proxysql']['admin']['debug'] %>
 }
