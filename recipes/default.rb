@@ -3,6 +3,10 @@
 # If there is no image in the registry, build it first, then push it
 
 config = data_bag_item(node['proxysql']['databag'],node.chef_environment)[node['proxysql']['databag_section']]
+secrets = Chef::EncryptedDataBagItem.load(node['proxysql']['secret_databag'],node.chef_environment)[node['proxysql']['databag_section']]
+
+config.deep_merge(secrets)
+
 run_image = "#{node['docker']['registry']}/#{node['proxysql']['run_image']}:#{node['proxysql']['run_image_tag']}"
 config_file = config['config_file'] || node['proxysql']['config_file']
 config_dir = config_file.split("/")[0..-2].join("/")

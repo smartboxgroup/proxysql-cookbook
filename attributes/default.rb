@@ -7,6 +7,7 @@ default['proxysql']['build_image_tag'] = 0.1
 default['proxysql']['run_image'] = 'proxysql'
 default['proxysql']['run_image_tag'] = 0.1
 default['proxysql']['databag'] = 'proxysql'
+default['proxysql']['secret_databag'] = 'proxysql_screts'
 default['proxysql']['databag_section'] = 'proxysql'
 default['proxysql']['config_template'] = 'proxysql.cnf.erb'
 default['proxysql']['config_file'] = '/etc/proxysql/proxysql.cnf'
