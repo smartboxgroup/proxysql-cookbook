@@ -2,8 +2,17 @@
 # If the image is not available, pulls it from the registry.
 # If there is no image in the registry, build it first, then push it
 
-config = data_bag_item(node['proxysql']['databag'],node.chef_environment)[node['proxysql']['databag_section']]
-secrets = Chef::EncryptedDataBagItem.load(node['proxysql']['secret_databag'],node.chef_environment)[node['proxysql']['databag_section']]
+# Load both encrypted and plain data bags into hashes and merge them
+config = begin
+           data_bag_item(node['proxysql']['databag'],node.chef_environment)[node['proxysql']['databag_section']]
+         rescue Net::HTTPServerException, Chef::Exceptions::InvalidDataBagPath
+           {}
+         end
+secrets = begin
+            Chef::EncryptedDataBagItem.load(node['proxysql']['secret_databag'],node.chef_environment)[node['proxysql']['databag_section']]
+         rescue Net::HTTPServerException, Chef::Exceptions::InvalidDataBagPath
+           {}
+          end
 
 Chef::Mixin::DeepMerge.deep_merge! secrets, config
 
