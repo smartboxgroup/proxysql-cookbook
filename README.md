@@ -32,7 +32,7 @@ Data from both databag and secret_databag is merged into a single hash and secre
     <td><tt>['proxysql']['secret_databag']</tt></td>
     <td>String</td>
     <td>Where to find the backend configurations (encrypted data bag) </td>
-    <td><tt>proxysql</tt></td>
+    <td><tt>proxysql_secrets</tt></td>
   </tr>
   <tr>
     <td><tt>['proxysql']['databag_section']</tt></td>
