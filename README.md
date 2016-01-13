@@ -12,6 +12,7 @@ TODO: List your supported platforms.
 The attributes defined by this recipe are organized under the node['proxysql'] namespace.
 All ProxySQL admin and frontend configurations are managed using attributes.
 Backend configurations, such as mysql servers, mysql users and sq; query rules, are managed in data bags. You can specift the databag name and section within it in attributes.
+Data from both databag and secret_databag is merged into a single hash and secret_databag takes precedence so you can use both or just one of them.
 
 <table>
   <tr>
@@ -24,6 +25,13 @@ Backend configurations, such as mysql servers, mysql users and sq; query rules, 
     <td><tt>['proxysql']['databag']</tt></td>
     <td>String</td>
     <td>Where to find the backend configurations</td>
+    <td><tt>proxysql</tt></td>
+  </tr>
+  <tr>
+  <tr>
+    <td><tt>['proxysql']['secret_databag']</tt></td>
+    <td>String</td>
+    <td>Where to find the backend configurations (encrypted data bag) </td>
     <td><tt>proxysql</tt></td>
   </tr>
   <tr>
